@@ -1,64 +1,138 @@
 const sequelize = require('../config/db_config');
 const User = require('../feature/users/userModel');
-const Auth = require('../feature/auth/auth.Model');
+const Auth = require('../feature/auth/authModel');
+const Followership = require('../feature/followerships/followershipModel')
+const Tweet = require('../feature/tweets/tweetModel')
+const Media = require('../feature/medias/mediaModel')
+const Retweet = require('../feature/retweets/retweetModel')
+const Moment = require('../feature/moments/momentModel')
+const MomentTweet = require('../feature/moment_tweets/momentTweetModel');
+const Mention = require('../feature/mentions/mentionModel');
+const Message = require('../feature/messages/messageModel');
+const Notification = require('../feature/notifications/notificationModel');
+const Hashtag = require('../feature/hashtag/hashtagModel');
+const TweetHashtag = require('../feature/tweet_Hashtags/tweetHashtagsModel');
+const List = require('../feature/lists/listModel');
+const Like = require('../feature/likes/likeModel');
+const Bookmark = require('../feature/bookmark/bookmarkModel');
+const ListMember = require('../feature/list_members/listMemberModel');
+const Community = require('../feature/community/communityModel');
+const CommunityMember = require('../feature/community_members/communityMemberModel');
+const Block = require('../feature/block/blockModel');
+const Mute = require('../feature/mutes/muteModel');
+const Space = require('../feature/spaces/spaceModel');
+const SpaceParticipant = require('../feature/space_participants/spaceParticipantModel');
+const Newsletter = require('../feature/newsletters/newsletterModel');
+const NewsletterSubscriber = require('../feature/newsletter_subscribers/newsletterSubscriberModel');
 
+// Relations
+User.hasMany(Auth, { foreignKey: 'userId' });
+Auth.belongsTo(User, { foreignKey: 'userId' });
 
+User.belongsToMany(User, { through: Followership, as: 'Followers', foreignKey: 'followedId' });
+User.belongsToMany(User, { through: Followership, as: 'Followed', foreignKey: 'followerId' });
 
-User.hasOne(Student, {
-  foreignKey: 'users_id', });
-Student.belongsTo(User, { 
-    foreignKey: {
-        name: 'users_id', 
-    }
-});
+User.hasMany(Tweet, { foreignKey: 'userId' });
+Tweet.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasOne(University, {
-  foreignKey: 'users_id'});
-University.belongsTo(User, {
-  foreignKey: {
-    name: 'users_id',
-  },
-});
+Tweet.hasMany(Media, { foreignKey: 'tweetId' });
+Media.belongsTo(Tweet, { foreignKey: 'tweetId' });
 
-University.hasMany(Course, { foreignKey: 'university_id' });
-Course.belongsTo(University);
+User.hasMany(Retweet, { foreignKey: 'userId' });
+Retweet.belongsTo(User, { foreignKey: 'userId' });
 
-Degree.hasMany(Course, { foreignKey: 'degree_id' });
-Course.belongsTo(Degree);
+Tweet.hasMany(Retweet, { foreignKey: 'tweetId' });
+Retweet.belongsTo(Tweet, { foreignKey: 'tweetId' });
 
-Student.hasMany(Admission, { foreignKey: 'student_id' });
-Admission.belongsTo(Student);
+User.hasMany(Moment, { foreignKey: 'userId' });
+Moment.belongsTo(User, { foreignKey: 'userId' });
 
-University.hasMany(Admission, { foreignKey: 'university_id' });
-Admission.belongsTo(University);
+Moment.belongsToMany(Tweet, { through: MomentTweet, foreignKey: 'momentId' });
+Tweet.belongsToMany(Moment, { through: MomentTweet, foreignKey: 'tweetId' });
 
-Degree.hasMany(Admission, {foreignKey: 'degree_id'});
-Admission.belongsTo(Degree);
+Tweet.hasMany(Mention, { foreignKey: 'tweetId' });
+Mention.belongsTo(Tweet, { foreignKey: 'tweetId' });
 
-Student.belongsToMany(Course, {through: Course_Student, foreignKey: 'student_id'});
-Course.belongsToMany(Student, { through: Course_Student, foreignKey: 'courses_id' });
+User.hasMany(Mention, { foreignKey: 'mentionedUserId' });
+Mention.belongsTo(User, { foreignKey: 'mentionedUserId' });
 
-University.hasMany(Program, { foreignKey: 'university_id' });
-Program.belongsTo(University);
+User.hasMany(Message, { foreignKey: 'senderId' });
+Message.belongsTo(User, { foreignKey: 'senderId' });
 
-Program.belongsToMany(Degree, {through: Program_degree, foreignKey: 'program_id'});
-Degree.belongsToMany(Program, {through: Program_degree, foreignKey: 'degree_id'});
+User.hasMany(Message, { foreignKey: 'receiverId' });
+Message.belongsTo(User, { foreignKey: 'receiverId' });
 
-Course.belongsToMany(Program, {through:  Course_Program, foreignKey: 'courses_id'});
-Program.belongsToMany(Course, {through:  Course_Program, foreignKey: 'program_id'});
+User.hasMany(List, { foreignKey: 'userId' });
+List.belongsTo(User, { foreignKey: 'userId' });
+
+List.hasMany(ListMember, { foreignKey: 'listId' });
+ListMember.belongsTo(List, { foreignKey: 'listId' });
+
+User.hasMany(ListMember, { foreignKey: 'memberUserId' });
+ListMember.belongsTo(User, { foreignKey: 'memberUserId' });
+
+User.hasMany(Community, { foreignKey: 'userId' });
+Community.belongsTo(User, { foreignKey: 'userId' });
+
+Community.hasMany(CommunityMember, { foreignKey: 'communityId' });
+CommunityMember.belongsTo(Community, { foreignKey: 'communityId' });
+
+User.hasMany(CommunityMember, { foreignKey: 'memberUserId' });
+CommunityMember.belongsTo(User, { foreignKey: 'memberUserId' });
+
+User.hasMany(Block, { foreignKey: 'blockerUserId' });
+Block.belongsTo(User, { foreignKey: 'blockerUserId' });
+
+User.hasMany(Mute, { foreignKey: 'muterUserId' });
+Mute.belongsTo(User, { foreignKey: 'muterUserId' });
+
+User.hasMany(Space, { foreignKey: 'creatorUserId' });
+Space.belongsTo(User, { foreignKey: 'creatorUserId' });
+
+Space.hasMany(SpaceParticipant, { foreignKey: 'spaceId' });
+SpaceParticipant.belongsTo(Space, { foreignKey: 'spaceId' });
+
+User.hasMany(SpaceParticipant, { foreignKey: 'userId' });
+SpaceParticipant.belongsTo(User, { foreignKey: 'userId' });
+
+User.hasMany(Newsletter, { foreignKey: 'creatorUserId' });
+Newsletter.belongsTo(User, { foreignKey: 'creatorUserId' });
+
+Newsletter.hasMany(NewsletterSubscriber, { foreignKey: 'newsletterId' });
+NewsletterSubscriber.belongsTo(Newsletter, { foreignKey: 'newsletterId' });
+
+User.hasMany(NewsletterSubscriber, { foreignKey: 'subscriberUserId' });
+NewsletterSubscriber.belongsTo(User, { foreignKey: 'subscriberUserId' });
+
+User.hasMany(Like, { foreignKey: 'userId' });
+Like.belongsTo(User, { foreignKey: 'userId' });
+
+Tweet.hasMany(Like, { foreignKey: 'tweetId' });
+Like.belongsTo(Tweet, { foreignKey: 'tweetId' });
+
+User.hasMany(Bookmark, { foreignKey: 'userId' });
+Bookmark.belongsTo(User, { foreignKey: 'userId' });
+
+Tweet.hasMany(Bookmark, { foreignKey: 'tweetId' });
+Bookmark.belongsTo(Tweet, { foreignKey: 'tweetId' });
+
+Tweet.hasMany(TweetHashtag, { foreignKey: 'tweetId' });
+TweetHashtag.belongsTo(Tweet, { foreignKey: 'tweetId' });
+
+Hashtag.hasMany(TweetHashtag, { foreignKey: 'hashtagId' });
+TweetHashtag.belongsTo(Hashtag, { foreignKey: 'hashtagId' });
+
+User.hasMany(Notification, { foreignKey: 'notificationUserId' });
+Notification.belongsTo(User, { foreignKey: 'notificationUserId' });
+
+Notification.belongsTo(Mention, { foreignKey: 'mentionId' });
+Notification.belongsTo(Tweet, { foreignKey: 'tweetId' });
+Notification.belongsTo(Retweet, { foreignKey: 'retweetId' });
+Notification.belongsTo(Message, { foreignKey: 'messageId' });
+Notification.belongsTo(User, { foreignKey: 'userId' });
+Notification.belongsTo(Like, { foreignKey: 'likeId' });
+Notification.belongsTo(Bookmark, { foreignKey: 'bookmarkId' });
 
 sequelize.sync({ alter: true }).then(() => {
-    console.log('Database & tables created!');
-});
-module.exports = {
-    User,
-    University,
-    Student,
-    Course,
-    Admission,
-    Degree,
-    Course_Student,
-    Program,
-    Program_degree,
-    Course_Program,
-};
+    console.log('Tables Created!')
+})

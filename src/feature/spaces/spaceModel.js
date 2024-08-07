@@ -2,25 +2,21 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db_config.js');
 
 
-const Like = sequelize.define('Like', {
+const Space = sequelize.define('Space', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    userId: {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    creatorUserId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Users',
-        key: 'id'
-      }
-    },
-    tweetId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'Tweets',
         key: 'id'
       }
     }
@@ -30,4 +26,4 @@ const Like = sequelize.define('Like', {
     updatedAt: 'updated_at'
   });
 
-module.exports = Like;
+module.exports = Space;

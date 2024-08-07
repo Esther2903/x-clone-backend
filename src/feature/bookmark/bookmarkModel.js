@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db_config.js');
 
 
-const Like = sequelize.define('Like', {
+const Bookmark = sequelize.define('Bookmark', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -30,4 +30,4 @@ const Like = sequelize.define('Like', {
     updatedAt: 'updated_at'
   });
 
-module.exports = Like;
+module.exports = Bookmark;

@@ -2,13 +2,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db_config.js');
 
 
-const Like = sequelize.define('Like', {
+const Mute = sequelize.define('Mute', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
-    userId: {
+    muterUserId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
@@ -16,11 +16,11 @@ const Like = sequelize.define('Like', {
         key: 'id'
       }
     },
-    tweetId: {
+    mutedUserId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Tweets',
+        model: 'Users',
         key: 'id'
       }
     }
@@ -30,4 +30,4 @@ const Like = sequelize.define('Like', {
     updatedAt: 'updated_at'
   });
 
-module.exports = Like;
+module.exports = Mute;

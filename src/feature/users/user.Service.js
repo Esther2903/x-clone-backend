@@ -1,4 +1,4 @@
-const UserModel = require('./userModel');
+const UserModel = require('./user.Model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -35,6 +35,14 @@ class UserService {
         user.password = hashedPassword;
         await user.save();
     }
+
+
+    async deleteUser(id) {
+    const user = await UserModel.findById(id);
+    if (!user) throw new Error('User not found');
+    await user.destroy();
+
 }
+};
 
 module.exports = new UserService();

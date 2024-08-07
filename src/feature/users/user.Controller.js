@@ -1,4 +1,4 @@
-const userService = require('./userService');
+const userService = require('./user.Service');
 
 class UserController {
     async signup(req, res) {
@@ -44,6 +44,14 @@ class UserController {
             const { email, newPassword } = req.body;
             await userService.resetPassword(email, newPassword);
             res.json({ message: 'Password reset successfully' });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+    async deleteUser(req, res) {
+        try {
+            await userService.deleteUser(req.params.id);
+            res.status(204).send(); // 204 No Content
         } catch (error) {
             res.status(400).json({ error: error.message });
         }

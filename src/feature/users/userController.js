@@ -39,3 +39,13 @@ exports.getUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.resetPassword = async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+        await userService.resetPassword(email, newPassword);
+        res.json({ message: 'Password reset successfully' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};

@@ -22,7 +22,15 @@ exports.loginUser = async (email, password) => {
     return user;
 };
 
-
 exports.getUserById = async (id) => {
     return User.findByPk(id);
 };
+
+exports.resetPassword = async ( email ,newPassword) => {
+    const user = await User.findOne({ where: {email}})
+    if(!user) throw new Error('User not found');
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+}

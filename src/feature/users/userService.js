@@ -1,36 +1,40 @@
-const User  = require('./userModel');
-const bcrypt = require ("bcrypt");
+const UserModel = require('./userModel');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-exports.createUser = async (userData) => {
-    console.log('User Data:', userData);
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const user = await User.create({ ...userData, password: hashedPassword });
-    return user;
-};
+class UserService {
+    async createUser(userData) {
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        return await UserModel.create({ ...userData, password: hashedPassword });
+    }
 
-exports.getAllUsers = async () => {
-    return User.findAll();
+    async loginUser(email, password) {
+        const user = await UserModel.findByEmail(email);
+        if (!user) throw new Error('User not found');
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) throw new Error('Invalid credentials');
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return { user, token };
+    }
+
+    async getUserById(id) {
+        return await UserModel.findById(id);
+    }
+
+    async getAllUsers() {
+        return await UserModel.findAll();
+    }
+
+    async resetPassword(email, newPassword) {
+        const user = await UserModel.findByEmail(email);
+        if (!user) throw new Error('User not found');
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+    }
 }
 
-exports.loginUser = async (email, password) => {
-    const user = await User.findOne({ where: { email } });
-    if (!user) throw new Error('User not found');
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error('Invalid credentials');
-
-    return user;
-};
-
-exports.getUserById = async (id) => {
-    return User.findByPk(id);
-};
-
-exports.resetPassword = async ( email ,newPassword) => {
-    const user = await User.findOne({ where: {email}})
-    if(!user) throw new Error('User not found');
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await user.save();
-}
+module.exports = new UserService();

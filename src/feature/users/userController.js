@@ -11,7 +11,7 @@ exports.signup = async (req, res) => {
 };
 
 
-/*exports.login = async (req , res) => {
+exports.login = async (req , res) => {
     try {
         const {email , password} = req.body;
         const user = await userService.loginUser(email, password);
@@ -19,7 +19,7 @@ exports.signup = async (req, res) => {
     } catch (error) {
         res.status(401).json({error: error.message});
     }
-};*/
+};
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -30,7 +30,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-/*exports.getUser = async (req, res) => {
+exports.getUser = async (req, res) => {
     try {
         const user = await userService.getUserById(req.params.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
@@ -38,4 +38,4 @@ exports.getAllUsers = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};*/
+};

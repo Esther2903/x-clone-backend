@@ -11,7 +11,7 @@ exports.createUser = async (userData) => {
 exports.getAllUsers = async () => {
     return User.findAll();
 }
-/*
+
 exports.loginUser = async (email, password) => {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new Error('User not found');
@@ -23,9 +23,6 @@ exports.loginUser = async (email, password) => {
 };
 
 
-
-
 exports.getUserById = async (id) => {
     return User.findByPk(id);
 };
-*/

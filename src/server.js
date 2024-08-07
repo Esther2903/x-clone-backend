@@ -3,6 +3,7 @@ const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler'); 
 const sequelize = require("./config/db_config"); 
 const userRoute = require("./feature/users/user.Route"); 
+const authRoutes = require("./feature/auth/auth.Routes");
 
 require('dotenv').config();
 
@@ -15,6 +16,7 @@ app.use(cors());
 
 
 app.use('/api/users', userRoute); 
+app.use('/api/auth', authRoutes); 
 
 
 app.use(errorHandler);

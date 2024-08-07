@@ -25,7 +25,7 @@ const SpaceParticipant = require('../feature/space_participants/spaceParticipant
 const Newsletter = require('../feature/newsletters/newsletterModel');
 const NewsletterSubscriber = require('../feature/newsletter_subscribers/newsletterSubscriberModel');
 
-// Relations
+
 User.hasMany(Auth, { foreignKey: 'userId' });
 Auth.belongsTo(User, { foreignKey: 'userId' });
 
@@ -136,3 +136,31 @@ Notification.belongsTo(Bookmark, { foreignKey: 'bookmarkId' });
 sequelize.sync({ alter: true }).then(() => {
     console.log('Tables Created!')
 })
+
+module.exports = {
+    User,
+    Auth,
+    Followership,
+    Tweet,
+    Media,
+    Retweet,
+    Moment,
+    MomentTweet,
+    Mention,
+    Message,
+    Hashtag,
+    TweetHashtag,
+    Like,
+    Bookmark,
+    Notification,
+    List,
+    ListMember,
+    Community,
+    CommunityMember,
+    Block,
+    Mute,
+    Space,
+    SpaceParticipant,
+    Newsletter,
+    NewsletterSubscriber
+}

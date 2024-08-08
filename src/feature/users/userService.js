@@ -9,10 +9,11 @@ class UserService {
     }
 
     async loginUser(email, password) {
-        const user = await UserModel.findByEmail(email);
+        console.log('Attempting to log in with email:', email);
         if (!user) throw new Error('User not found');
 
         const isMatch = await bcrypt.compare(password, user.password);
+       
         if (!isMatch) throw new Error('Invalid credentials');
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });

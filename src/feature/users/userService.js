@@ -1,6 +1,9 @@
 const { User } = require('../../utils/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 class UserService {
     async createUser(userData) {
@@ -8,21 +11,27 @@ class UserService {
         return await User.create({ ...userData, password: hashedPassword });
     }
 
-    async loginUser(email, password) {
-        console.log('Attempting to log in with email:', email);
-        console.log(user);
-        if (!user) throw new Error('User not found');
+    async findByEmail(email) {
+        return await User.findOne({ where: { email } });
+    }
 
+    async loginUser(email, password) {
+        const user = await this.findByEmail(email);
+        if (!user) throw new Error('User not found');
         const isMatch = await bcrypt.compare(password, user.password);
-       
+
         if (!isMatch) throw new Error('Invalid credentials');
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        if (!process.env.ACCESS_TOKEN_SECRET) {
+            throw new Error('ACCESS_TOKEN_SECRET is not defined');
+        }
+
+        const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
         return { user, token };
     }
 
     async getUserById(id) {
-        return await User.findById(id);
+        return await User.findByPk(id);
     }
 
     async getAllUsers() {
@@ -30,7 +39,7 @@ class UserService {
     }
 
     async resetPassword(email, newPassword) {
-        const user = await User.findByEmail(email);
+        const user = await this.findByEmail(email);
         if (!user) throw new Error('User not found');
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -38,13 +47,11 @@ class UserService {
         await user.save();
     }
 
-
     async deleteUser(id) {
-    const user = await User.findById(id);
-    if (!user) throw new Error('User not found');
-    await user.destroy();
-
+        const user = await User.findByPk(id);
+        if (!user) throw new Error('User not found');
+        await user.destroy();
+    }
 }
-};
 
 module.exports = new UserService();

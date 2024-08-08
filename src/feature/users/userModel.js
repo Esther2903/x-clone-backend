@@ -83,8 +83,6 @@ const User = sequelize.define('User', {
     ]
 });
 
-User.findByEmail = async function(email) {
-  return await this.findOne({ where: { email } });
-};
+
 
 module.exports = User;

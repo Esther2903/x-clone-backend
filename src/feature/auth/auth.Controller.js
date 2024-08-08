@@ -12,6 +12,15 @@ class AuthController {
         }
     }
 
+    async getAllAuths(req, res) {
+        try {
+            const auths = await authService.getAllAuths();
+            res.json(auths);  // Return all auth records
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
     async getAuth(req , res) {
         try {
             const userId = req.params.userId;
@@ -29,8 +38,14 @@ class AuthController {
     async updateAccountStatus(req, res) {
         try {
             const userId = req.params.userId;
-            const {status} = await authService.updateAccountStatus(userId,status);
+            const {status} = req.body;
+                if (typeof status !== 'boolean') { 
+                        return res.status(400).json({error: 'Status must be boolean'});
+                    }
+
+            const auth = await authService.updateAccountStatus(userId, status); 
             res.json(auth); 
+
         } catch (error) {
              res.status(400).json({ error: error.message });
         }

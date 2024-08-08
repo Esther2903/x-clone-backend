@@ -11,11 +11,16 @@ class AuthService {
         return auth;
     }
 
+    async getAllAuths() {
+        return await AuthModel.findAll();
+    }
+
     async getAuthByUserId(userId){
         return await AuthModel.findOne({ where : {userId}});
     }
 
     async updateAccountStatus(userId , status ) {
+        const auth = await this.getAuthByUserId(userId); 
         if (!auth) throw new Error('Auth record not found');
 
         auth.accountStatus = status;

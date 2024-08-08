@@ -1,4 +1,3 @@
-
 const { User } = require('../../utils/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,6 +10,7 @@ class UserService {
 
     async loginUser(email, password) {
         console.log('Attempting to log in with email:', email);
+        console.log(user);
         if (!user) throw new Error('User not found');
 
         const isMatch = await bcrypt.compare(password, user.password);

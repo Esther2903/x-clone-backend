@@ -23,6 +23,12 @@ class AuthService {
         return auth;
     }
 
+    async deleteAuth(userId) {
+        const auth = await this.getAuthByUserId(userId);
+        if (!auth) throw new Error('Auth record not found');
+        await auth.destroy();
+    }
+
     generateSecretKey(){
         const secret = process.env.ACCESS_TOKEN_SECRET;
         console.log('ACCESS_TOKEN_SECRET:', secret);

@@ -17,8 +17,11 @@ class FollowershipService {
     return await Followership.create({
         followerId,
         followedId
-    })
+    });
 }
+
+    
+
 }
 
 module.exports = new FollowershipService();

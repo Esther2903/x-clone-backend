@@ -1,5 +1,5 @@
-const AuthModel = require('./auth.Model');
-const UserModel = require('../users/user.Model');
+const AuthModel = require('./authModel');
+const UserModel = require('../users/userModel');
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
@@ -34,22 +34,12 @@ class AuthService {
         await auth.destroy();
     }
 
-    generateSecretKey(){
+    generateSecretKey() {
         const secret = process.env.ACCESS_TOKEN_SECRET;
         console.log('ACCESS_TOKEN_SECRET:', secret);
         return secret;
-      
-  
     }
 
-    generateToken(userId){
-        const token = jwt.sign({ id : userId},
-            this.generateSecretKey(),
-            {
-                expiresIn:'1h'
-            } );
-            return token;
-    }
 }
 
 module.exports = new AuthService();

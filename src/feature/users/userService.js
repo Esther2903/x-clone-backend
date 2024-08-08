@@ -16,11 +16,11 @@ class UserService {
     }
 
     async loginUser(email, password) {
-<<<<<<< HEAD
+
         console.log('Attempting to log in with email:', email);
-=======
+
         const user = await this.findByEmail(email);
->>>>>>> 6e79f23ae70036a9e2a9cb347fca1b6c0847145b
+
         if (!user) throw new Error('User not found');
         const isMatch = await bcrypt.compare(password, user.password);
 

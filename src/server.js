@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler'); 
 const sequelize = require("./config/db_config"); 
-const userRoute = require("./feature/users/user.Route"); 
-const authRoutes = require("./feature/auth/auth.Routes");
+const router = require("./api"); 
+
 
 require('dotenv').config();
 
@@ -14,10 +14,7 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 
-
-app.use('/api/users', userRoute); 
-app.use('/api/auth', authRoutes); 
-
+app.use('/api', router);
 
 app.use(errorHandler);
 

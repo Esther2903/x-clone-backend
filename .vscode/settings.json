@@ -6,6 +6,7 @@
         "followership",
         "followerships",
         "unfollow",
-        "unfollowed"
+        "unfollowed",
+        "UUIDV"
     ]
 }

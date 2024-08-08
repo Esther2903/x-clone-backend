@@ -6,7 +6,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'media',
-        allowedFormats:['jpg', 'png'],
+        allowedFormats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
         public_id: (req, file) => 'squads',
 
     },

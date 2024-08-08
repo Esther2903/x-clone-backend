@@ -38,7 +38,8 @@ const Tweet = sequelize.define('Tweet', {
     },
     typeTweets: {
       type: DataTypes.ENUM('tweet', 'quote', 'reply'),
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'tweet'
     }
   }, {
     timestamps: true,

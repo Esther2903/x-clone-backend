@@ -6,12 +6,11 @@ class TweetController {
         try {
             const tweetData = { 
                 content: req.body.content, 
-                mediaUrl: req.file ? req.file.path:'', 
-                parentTweetId: req.body.parentTweetId,
+                mediaUrl: req.file ? req.file.path : '',
                 typeTweets: req.body.typeTweets, 
-                userId: req.body.userId} ;
-            /* const userId = req.user.id;  */ 
-            console.log(tweetData);
+                parentTweetId: req.body.parentTweetId,
+                userId: req.user.id
+            };
             const tweet = await tweetService.createTweet(tweetData);
             return res.status(201).json(tweet);
         } catch (error) {
@@ -19,7 +18,6 @@ class TweetController {
         }
     }
 
-    
     async getTweetById(req, res) {
         try {
             const tweet = await tweetService.getTweetById(req.params.id);
@@ -31,7 +29,15 @@ class TweetController {
 
     async updateTweet(req, res) {
         try {
-            const tweet = await tweetService.updateTweet(req.params.id, req.body, req.user.id);
+            const tweetData = { 
+                content: req.body.content, 
+                mediaUrl: req.file ? req.file.path : '', 
+                isThread: req.body.isThread,
+                parentTweetId: req.body.parentTweetId,
+                typeTweets: req.body.typeTweets,
+                userId: req.user.id
+            };
+            const tweet = await tweetService.updateTweet(req.params.id, tweetData);
             return res.status(200).json(tweet);
         } catch (error) {
             return res.status(500).json({ message: error.message });

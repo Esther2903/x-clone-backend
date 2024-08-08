@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db_config.js');
+const sequelize = require('../../config/db_config');
 
 
 const List = sequelize.define('List', {

@@ -6,7 +6,7 @@ const Tweet = require('../feature/tweets/tweetModel')
 const Media = require('../feature/medias/mediaModel')
 const Retweet = require('../feature/retweets/retweetModel')
 const Moment = require('../feature/moments/momentModel')
-const MomentTweet = require('../feature/moment_tweets/momentTweetModel');
+const MomentTweet = require('../feature/moment_tweets/moment_tweetModel');
 const Mention = require('../feature/mentions/mentionModel');
 const Message = require('../feature/messages/messageModel');
 const Notification = require('../feature/notifications/notificationModel');
@@ -23,7 +23,7 @@ const Mute = require('../feature/mutes/muteModel');
 const Space = require('../feature/spaces/spaceModel');
 const SpaceParticipant = require('../feature/space_participants/spaceParticipantModel');
 const Newsletter = require('../feature/newsletters/newsletterModel');
-const NewsletterSubscriber = require('../feature/newsletter_subscribers/newsletterSubscriberModel');
+const NewsletterSubscriber = require('../feature/newsletter_suscribers/newsletterSuscriberModel');
 
 
 User.hasMany(Auth, { foreignKey: 'userId' });

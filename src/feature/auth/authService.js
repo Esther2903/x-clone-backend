@@ -1,5 +1,4 @@
-const AuthModel = require('./auth.Model');
-const UserModel = require('../users/user.Model');
+const {User, Auth} = require('../../utils/index');
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
@@ -7,12 +6,12 @@ class AuthService {
     async createAuth(userId) {
         const secretKey = this.generateSecretKey(); 
         if (!secretKey) throw new Error('Secret key generation failed');
-        const auth = await AuthModel.create({ secretKey, userId });
+        const auth = await Auth.create({ secretKey, userId });
         return auth;
     }
 
     async getAuthByUserId(userId){
-        return await AuthModel.findOne({ where : {userId}});
+        return await Auth.findOne({ where : {userId}});
     }
 
     async updateAccountStatus(userId , status ) {

@@ -12,6 +12,36 @@ class FollowershipController {
                 res.status(400).json({error: error.message});
             }
        }
+
+
+       async unfollow(req, res){
+        try {
+                const { followerId, followedId } = req.body;
+                const unfollow = await followershipService.unfollowUser(followerId, followedId);
+                res.json(unfollow);
+            } catch (error) {
+                res.status(400).json({error: error.message});
+            }
+       }
+
+       async getFollower(req , res){
+        try {
+            const userId = req.params.userId;
+            const follower = await followershipService.getFollower(userId);
+            res.json(follower);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+   }
+       async getFollowing(req , res){
+            try {
+                const userId = req.params.userId;
+                const following = await followershipService.getFollowing(userId);
+                res.json(following);
+            } catch (error) {
+                res.status(400).json({ error: error.message });
+            }
+       }
 }
 
 module.exports = new FollowershipController();

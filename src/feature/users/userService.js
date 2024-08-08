@@ -1,15 +1,15 @@
-const {User} = require('../../utils/index');
+const UserModel = require('./userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 class UserService {
     async createUser(userData) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        return await UserModel.create({ ...userData, password: hashedPassword });
+        return await User.create({ ...userData, password: hashedPassword });
     }
 
     async loginUser(email, password) {
-        const user = await UserModel.findByEmail(email);
+        console.log('Attempting to log in with email:', email);
         if (!user) throw new Error('User not found');
         const isMatch = await bcrypt.compare(password, user.password);
        
@@ -20,15 +20,15 @@ class UserService {
     }
 
     async getUserById(id) {
-        return await UserModel.findById(id);
+        return await User.findById(id);
     }
 
     async getAllUsers() {
-        return await UserModel.findAll();
+        return await User.findAll();
     }
 
     async resetPassword(email, newPassword) {
-        const user = await UserModel.findByEmail(email);
+        const user = await User.findByEmail(email);
         if (!user) throw new Error('User not found');
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -38,7 +38,7 @@ class UserService {
 
 
     async deleteUser(id) {
-    const user = await UserModel.findById(id);
+    const user = await User.findById(id);
     if (!user) throw new Error('User not found');
     await user.destroy();
 

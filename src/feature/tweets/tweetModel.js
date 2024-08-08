@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../utils/index');
+const sequelize = require('../config/db_config.js');
 
 const Tweet = sequelize.define('Tweet', {
     id: {
@@ -10,6 +10,10 @@ const Tweet = sequelize.define('Tweet', {
     content: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    mediaUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     isThread: {
       type: DataTypes.BOOLEAN,

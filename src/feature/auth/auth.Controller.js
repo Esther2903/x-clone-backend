@@ -15,11 +15,13 @@ class AuthController {
     async getAuth(req , res) {
         try {
             const userId = req.params.userId;
+            console.log('Fetching auth', userId);
             const auth = await authService.getAuthByUserId(userId);
             if(!auth)
-               return res.status(404).json({message: 'Auth recordnot found'});
+               return res.status(404).json({message: 'Auth record not found'});
                res.json(auth); 
         } catch (error) {
+            console.error('Fetching', error);
             res.status(500).json({error: error.message});
         }
     }

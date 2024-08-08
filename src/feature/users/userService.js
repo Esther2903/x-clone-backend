@@ -1,4 +1,4 @@
-const UserModel = require('./userModel');
+const {User } = require('../../utils/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
@@ -16,8 +16,6 @@ class UserService {
     }
 
     async loginUser(email, password) {
-
-        console.log('Attempting to log in with email:', email);
 
         const user = await this.findByEmail(email);
 

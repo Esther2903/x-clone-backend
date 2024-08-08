@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db_config.js');
+const sequelize = require('../../config/db_config');
 
 
 const Followership = sequelize.define('Followership', {
     followerId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
       references: {
         model: 'Users',
         key: 'id'
@@ -14,6 +15,7 @@ const Followership = sequelize.define('Followership', {
     followedId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
       references: {
         model: 'Users',
         key: 'id'
@@ -21,7 +23,8 @@ const Followership = sequelize.define('Followership', {
     },
   }, {
     timestamps: true,
-    createdAt: 'created_at'
+    createdAt: 'created_at',
+    //updatedAt: false
   });
 
 module.exports =  Followership;

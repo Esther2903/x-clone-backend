@@ -4,6 +4,7 @@ const followershipService = require('./followershipService');
 class FollowershipController {
        async follow(req , res){
             try {
+              
                 const { followerId, followedId } = req.body;
                 const follow = await followershipService.followUser(followerId , followedId);
 
@@ -24,11 +25,12 @@ class FollowershipController {
             }
        }
 
-       async getFollower(req , res){
+       async getFollowers(req , res){
         try {
             const userId = req.params.userId;
-            const follower = await followershipService.getFollower(userId);
-            res.json(follower);
+
+            const followers = await followershipService.getFollowers(userId);
+            res.json(followers);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }

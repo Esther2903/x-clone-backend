@@ -15,7 +15,6 @@ class AuthController {
     async getAuth(req , res) {
         try {
             const userId = req.params.userId;
-            console.log('Fetching auth', userId);
             const auth = await authService.getAuthByUserId(userId);
             if(!auth)
                return res.status(404).json({message: 'Auth record not found'});

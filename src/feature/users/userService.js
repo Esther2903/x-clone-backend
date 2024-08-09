@@ -1,4 +1,4 @@
-const { User } = require('../../utils/index');
+const {User } = require('../../utils/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
@@ -16,7 +16,9 @@ class UserService {
     }
 
     async loginUser(email, password) {
+
         const user = await this.findByEmail(email);
+
         if (!user) throw new Error('User not found');
         const isMatch = await bcrypt.compare(password, user.password);
 

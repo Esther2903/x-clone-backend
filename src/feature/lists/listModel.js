@@ -16,7 +16,7 @@ const List = sequelize.define('List', {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    userId: {
+    userId: { 
         type: DataTypes.UUID,
         allowNull: false,
         references: {

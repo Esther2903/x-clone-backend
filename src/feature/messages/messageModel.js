@@ -31,6 +31,10 @@ const Message = sequelize.define('Message', {
         model: 'Users',
         key: 'id'
       }
+    },
+    picture: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   }, {
     timestamps: true,

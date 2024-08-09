@@ -1,16 +1,17 @@
 const express = require('express');
 const tweetController = require('./tweetController');
-const upload = require('../../middlewares/upload')
+const {uploadMedia} = require('../../middlewares/upload')
+const auth = require('../../middlewares/authMiddleware')
 
 const tweetRouter = express.Router();
 
-tweetRouter.post('/', upload.single('mediaUrl'), tweetController.createTweet);
+tweetRouter.post('/',auth, uploadMedia.single('mediaUrl'), tweetController.createTweet);
 
-tweetRouter.get('/:id',  tweetController.getTweetById);
+tweetRouter.get('/:id',auth,  tweetController.getTweetById);
 
-tweetRouter.put('/:id',  tweetController.updateTweet);
+tweetRouter.put('/:id',auth, uploadMedia.single('mediaUrl'),  tweetController.updateTweet);
 
-tweetRouter.delete('/:id', tweetController.deleteTweet);
+tweetRouter.delete('/:id',auth, tweetController.deleteTweet);
 
 tweetRouter.get('/', tweetController.getAllTweets);
 

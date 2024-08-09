@@ -6,7 +6,7 @@ const tweetRoute = require('./feature/tweets/tweetRouter');
 const messageRoute = require('./feature/messages/messageRouter');
 const likeRoute = require('./feature/likes/likeRouter');
 const communityRoute = require('./feature/community/communityRouter');
-
+const hashtagRoute = require('./feature/hashtag/hashtagRouter');
 
 const router = express();
 
@@ -17,6 +17,7 @@ router.use('/tweets', tweetRoute);
 router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);
 router.use('/community', communityRoute);
+router.use('/hastags', hashtagRoute);
 
 module.exports = router; 
 

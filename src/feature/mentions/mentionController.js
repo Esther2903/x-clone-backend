@@ -1,4 +1,5 @@
-const MentionService = require('./mentionService'); 
+const MentionService = require('./mentionService');
+
 class MentionController {
     async createMention(req, res) {
         try {
@@ -7,7 +8,6 @@ class MentionController {
             const mention = await MentionService.createMention(tweetId, mentionedUserId);
             return res.status(201).json(mention);
         } catch (error) {
-          
             return res.status(500).json({ message: error.message });
         }
     }
@@ -19,7 +19,6 @@ class MentionController {
             const mentions = await MentionService.getMentionsByTweetId(tweetId);
             return res.status(200).json(mentions);
         } catch (error) {
-           
             return res.status(500).json({ message: error.message });
         }
     }
@@ -27,10 +26,10 @@ class MentionController {
     async getMentionsByUser(req, res) {
         try {
             const userId = req.user.id; 
+        
             const mentions = await MentionService.getMentionsByUserId(userId);
             return res.status(200).json(mentions);
         } catch (error) {
-    
             return res.status(500).json({ message: error.message });
         }
     }

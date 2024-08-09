@@ -22,4 +22,4 @@ class MentionService {
     }
 }
 
-module.exports = new MentionService(); 
+module.exports = new MentionService();

@@ -11,6 +11,7 @@ const messageRoute = require('./feature/messages/messageRouter');
 const likeRoute = require('./feature/likes/likeRouter');
 const communityRoute = require('./feature/community/communityRouter');
 const retweetRoute = require('./feature/retweets/retweetRoute');
+const blockRoute = require('./feature/block/blockRoute');
 
 const router = express();
 
@@ -20,7 +21,7 @@ router.use('/followerships', followershipRoute);
 router.use('/tweets', tweetRoute);
 router.use('/retweets' , retweetRoute);
 router.use('/mentions', mentionRoute);
-
+router.use('/block', blockRoute);
 router.use('/lists', listRoute);
 
 router.use('/messages', messageRoute);

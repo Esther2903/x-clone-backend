@@ -3,6 +3,7 @@ const userRoute = require('./feature/users/userRoute');
 const authRoutes = require('./feature/auth/authRoutes');
 const followershipRoute = require('./feature/followerships/followershipRoute');
 const tweetRoute = require('./feature/tweets/tweetRouter');
+const mentionRoute = require('./feature/mentions/mentionRoute');
 
 const listRoute = require('./feature/lists/listRoute');
 
@@ -18,6 +19,7 @@ router.use('/auth', authRoutes);
 router.use('/followerships', followershipRoute); 
 router.use('/tweets', tweetRoute);
 router.use('/retweets' , retweetRoute);
+router.use('/mentions', mentionRoute);
 
 router.use('/lists', listRoute);
 

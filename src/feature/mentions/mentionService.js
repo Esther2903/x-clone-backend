@@ -14,7 +14,10 @@ class MentionService {
                     throw new Error('User not found');
                 }
 
-                const mention
+                const mention = await Mention.create({
+                    tweetId, mentionedUserId
+                });
+                return mention;
             }
 }
 

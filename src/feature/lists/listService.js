@@ -1,12 +1,12 @@
 
-const List = require('../../utils/index');
+const {List} = require('../../utils/index');
 
 class ListService {
     async createList(userId, listData) {
         try {
             const list = await List.create({
                 userId,
-                ...listData
+                listData
             });
             return list;
         } catch (error) {

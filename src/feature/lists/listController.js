@@ -4,7 +4,11 @@ class ListController {
     async createList(req, res) {
         try {
             const { userId } = req;
+            console.log('User ID:', userId); 
             const listData = req.body;
+            if (!userId) {
+                return res.status(400).json({ error: 'User ID is required' });
+            }
             const list = await listService.createList(userId, listData);
             res.status(201).json(list);
         } catch (error) {

@@ -15,6 +15,7 @@ const generateToken = (req, res, next) => {
 
          });
          
+         req.userId = decoded.id; 
          res.token = token;
          next(); 
 };

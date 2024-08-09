@@ -20,6 +20,7 @@ class UserController {
         }
     }
 
+
     async getUser(req, res) {
         try {
             const user = await userService.getUserById(req.params.id);
@@ -51,11 +52,13 @@ class UserController {
     async deleteUser(req, res) {
         try {
             await userService.deleteUser(req.params.id);
-            res.status(204).send(); // 204 No Content
+            res.status(204).send(); 
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
     }
 }
+
+
 
 module.exports = new UserController();

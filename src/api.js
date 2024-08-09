@@ -5,6 +5,7 @@ const followershipRoute = require('./feature/followerships/followershipRoute');
 const tweetRoute = require('./feature/tweets/tweetRouter');
 const messageRoute = require('./feature/messages/messageRouter');
 const likeRoute = require('./feature/likes/likeRouter');
+const communityRoute = require('./feature/community/communityRouter');
 
 
 const router = express();
@@ -15,6 +16,7 @@ router.use('/followerships', followershipRoute);
 router.use('/tweets', tweetRoute);
 router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);
+router.use('/community', communityRoute);
 
 module.exports = router; 
 

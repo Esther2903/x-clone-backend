@@ -1,19 +1,19 @@
 
-const {List} = require('../../utils/index');
+const {List, ListMember} = require('../../utils/index');
 
 class ListService {
     async createList(userId, listData) {
         try {
             const list = await List.create({
                 userId,
-                listData
+                name: listData.name,
+                description: listData.description 
             });
             return list;
         } catch (error) {
             throw error;
         }
     }
-
     async getListById(listId) {
         try {
             const list = await List.findByPk(listId);
@@ -58,6 +58,35 @@ class ListService {
             }
             await list.destroy();
             return { message: 'List deleted successfully' };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async addUserToList(listId, userId) {
+        try {
+            const list = await List.findByPk(ListId);
+            if (!list) {
+                throw new Error('List not found');
+            }
+
+            const existingMember = await ListMember.findOne({
+                where : {
+                    listId,
+                    userId
+                }
+            });
+
+            if (existingMember) {
+                throw new Error('User already a member of the list');
+            }
+
+            const newMember = await ListMember.create({
+                listId,
+                userId
+            });
+
+            return newMember;
         } catch (error) {
             throw error;
         }

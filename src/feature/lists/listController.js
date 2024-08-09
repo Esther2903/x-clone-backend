@@ -3,18 +3,21 @@ const listService = require('./listService');
 class ListController {
     async createList(req, res) {
         try {
-            const { userId } = req;
-            console.log('User ID:', userId); 
-            const listData = req.body;
+            const { userId, name, description } = req.body;
             if (!userId) {
                 return res.status(400).json({ error: 'User ID is required' });
             }
+            if (!name) {
+                return res.status(400).json({ error: 'List name is required' });
+            }
+            const listData = { name, description };
             const list = await listService.createList(userId, listData);
             res.status(201).json(list);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
     }
+    
 
     async getList(req, res) {
         try {
@@ -52,6 +55,16 @@ class ListController {
             const listId = req.params.id;
             const result = await listService.deleteList(listId);
             res.json(result);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async addUserToList(req, res) {
+        try {
+            const { listId, userId } = req.body;
+            const newMember = await listService.addUserToList(listId, userId);
+            res.status(201).json(newMember);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }

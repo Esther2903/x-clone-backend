@@ -1,7 +1,8 @@
 const tweetService = require('./tweetService');
+//const NotificationController = require('../notifications/notificationController');
 
 class TweetController {
-    
+
     async createTweet(req, res) {
         try {
             const tweetData = { 
@@ -12,6 +13,7 @@ class TweetController {
                 userId: req.user.id
             };
             const tweet = await tweetService.createTweet(tweetData);
+            
             return res.status(201).json(tweet);
         } catch (error) {
             return res.status(500).json({ message: error.message });
@@ -61,6 +63,7 @@ class TweetController {
             return res.status(500).json({ message: error.message });
         }
     }
+
 }
 
 module.exports = new TweetController();

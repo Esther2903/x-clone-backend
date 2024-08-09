@@ -25,7 +25,19 @@ class RetweetController {
                 return res.status(500).json({ message: error.message });
             }
         }
-    }
+
+        async deleteRetweet(req , res){
+            try {
+                const { retweetId } =  req.params;
+                const userId = req.user.id;
+                
+                const retweet = await RetweetService.deleteRetweet(retweetId , userId);
+                return res.status(200).json(retweet);
+            } catch (error) {
+                return res.status(500).json({ message: error.message });
+            }
+        }
+}
   
 
 module.exports = new RetweetController();   

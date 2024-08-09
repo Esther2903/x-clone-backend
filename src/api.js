@@ -12,6 +12,7 @@ const likeRoute = require('./feature/likes/likeRouter');
 const communityRoute = require('./feature/community/communityRouter');
 const retweetRoute = require('./feature/retweets/retweetRoute');
 const blockRoute = require('./feature/block/blockRoute');
+const muteRoute = require('./feature/mutes/muteRoute');
 
 const router = express();
 
@@ -23,6 +24,7 @@ router.use('/retweets' , retweetRoute);
 router.use('/mentions', mentionRoute);
 router.use('/block', blockRoute);
 router.use('/lists', listRoute);
+router.use('/mutes', muteRoute);
 
 router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);

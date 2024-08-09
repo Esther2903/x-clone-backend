@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db_config.js');
+const sequelize = require('../../config/db_config');
 
 
 const List = sequelize.define('List', {
@@ -16,7 +16,7 @@ const List = sequelize.define('List', {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    userId: {
+    userId: { 
         type: DataTypes.UUID,
         allowNull: false,
         references: {

@@ -1,12 +1,12 @@
 const sequelize = require('../config/db_config');
 const User = require('../feature/users/userModel');
 const Auth = require('../feature/auth/authModel');
-const Followership = require('../feature/followerships/followershipModel')
-const Tweet = require('../feature/tweets/tweetModel')
-const Media = require('../feature/medias/mediaModel')
-const Retweet = require('../feature/retweets/retweetModel')
-const Moment = require('../feature/moments/momentModel')
-const MomentTweet = require('../feature/moment_tweets/momentTweetModel');
+const Followership = require('../feature/followerships/followershipModel');
+const Tweet = require('../feature/tweets/tweetModel');
+const Media = require('../feature/medias/mediaModel');
+const Retweet = require('../feature/retweets/retweetModel');
+const Moment = require('../feature/moments/momentModel');
+const MomentTweet = require('../feature/moment_tweets/moment_tweetModel');
 const Mention = require('../feature/mentions/mentionModel');
 const Message = require('../feature/messages/messageModel');
 const Notification = require('../feature/notifications/notificationModel');
@@ -23,14 +23,14 @@ const Mute = require('../feature/mutes/muteModel');
 const Space = require('../feature/spaces/spaceModel');
 const SpaceParticipant = require('../feature/space_participants/spaceParticipantModel');
 const Newsletter = require('../feature/newsletters/newsletterModel');
-const NewsletterSubscriber = require('../feature/newsletter_subscribers/newsletterSubscriberModel');
+const NewsletterSubscriber = require('../feature/newsletter_suscribers/newsletterSuscriberModel');
 
-// Relations
+
 User.hasMany(Auth, { foreignKey: 'userId' });
 Auth.belongsTo(User, { foreignKey: 'userId' });
 
 User.belongsToMany(User, { through: Followership, as: 'Followers', foreignKey: 'followedId' });
-User.belongsToMany(User, { through: Followership, as: 'Followed', foreignKey: 'followerId' });
+User.belongsToMany(User, { through: Followership, as: 'Following', foreignKey: 'followerId' });
 
 User.hasMany(Tweet, { foreignKey: 'userId' });
 Tweet.belongsTo(User, { foreignKey: 'userId' });
@@ -134,5 +134,35 @@ Notification.belongsTo(Like, { foreignKey: 'likeId' });
 Notification.belongsTo(Bookmark, { foreignKey: 'bookmarkId' });
 
 sequelize.sync({ alter: true }).then(() => {
-    console.log('Tables Created!')
-})
+    console.log('Database & tables created!');
+}).catch(err => {
+    console.error('Error creating database tables:', err);
+});
+
+module.exports = {
+    User,
+    Auth,
+    Followership,
+    Tweet,
+    Media,
+    Retweet,
+    Moment,
+    MomentTweet,
+    Mention,
+    Message,
+    Hashtag,
+    TweetHashtag,
+    Like,
+    Bookmark,
+    Notification,
+    List,
+    ListMember,
+    Community,
+    CommunityMember,
+    Block,
+    Mute,
+    Space,
+    SpaceParticipant,
+    Newsletter,
+    NewsletterSubscriber
+};

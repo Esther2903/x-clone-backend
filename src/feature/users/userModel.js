@@ -1,11 +1,13 @@
+
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db_config.js');
+const sequelize = require('../../config/db_config.js');
 
 const User = sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4,
     },
     name: {
       type: DataTypes.STRING,
@@ -68,18 +70,19 @@ const User = sequelize.define('User', {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
-  }, 
-  {
+}, 
+{
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     indexes: [
       {
         unique: true,
-        fields: ['username', 'email', phoneNumber]
+        fields: ['username', 'email', 'phoneNumber']
       }
     ]
-  });
+});
+
 
 
 module.exports = User;

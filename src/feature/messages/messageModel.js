@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db_config.js');
+const sequelize = require('../../config/db_config');
 
 const Message = sequelize.define('Message', {
     id: {
@@ -31,6 +31,10 @@ const Message = sequelize.define('Message', {
         model: 'Users',
         key: 'id'
       }
+    },
+    picture: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   }, {
     timestamps: true,

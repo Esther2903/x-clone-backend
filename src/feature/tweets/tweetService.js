@@ -17,7 +17,7 @@ class TweetService {
             }
             typeTweets = 'quote'
         }
-        console.log(typeTweets);
+
         let tweet = await Tweet.create({ content, isThread, parentTweetId, typeTweets, userId });
         if (mediaUrl) {
             const media = await mediaService.addMedia({

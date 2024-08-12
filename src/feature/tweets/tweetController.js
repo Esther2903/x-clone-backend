@@ -19,6 +19,16 @@ class TweetController {
         }
     }
 
+    async getCommentsForTweet(req, res) {
+        try {
+            const tweetId = req.params.id;
+            const comments = await tweetService.getCommentsForTweet(tweetId);
+            return res.status(200).json(comments);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
     async getTweetById(req, res) {
         try {
             const tweet = await tweetService.getTweetById(req.params.id);

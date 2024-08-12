@@ -7,6 +7,8 @@ const tweetRouter = express.Router();
 
 tweetRouter.post('/',auth, uploadMedia.single('mediaUrl'), tweetController.createTweet);
 
+tweetRouter.get('/comment/:id',auth, tweetController.getCommentsForTweet);
+
 tweetRouter.get('/:id',auth,  tweetController.getTweetById);
 
 tweetRouter.put('/:id',auth, uploadMedia.single('mediaUrl'),  tweetController.updateTweet);

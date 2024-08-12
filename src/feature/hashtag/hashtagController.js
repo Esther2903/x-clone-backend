@@ -4,10 +4,19 @@ class HashtagController {
 
     async addHashtags(req, res) {
         try {
-            const tweetId = req.params.id;
-            const { hashtags } = req.body;
+            let { hashtags } = req.body;
+            const  tweetId  = req.params.id;
+
+            if (typeof hashtags === 'string') {
+                hashtags = [hashtags.trim()];
+            }
+
+            if (!Array.isArray(hashtags)) {
+                return res.status(400).json({ message: 'Hashtags should be an array' });
+            }
 
             await hashtagService.addHashtagsToTweet(tweetId, hashtags);
+
             return res.status(201).json({ message: 'Hashtags added successfully' });
         } catch (error) {
             return res.status(500).json({ message: error.message });

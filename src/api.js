@@ -23,7 +23,7 @@ router.use('/lists', listRoute);
 router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);
 router.use('/community', communityRoute);
-router.use('/hastags', hashtagRoute);
+router.use('/hashtags', hashtagRoute);
 
 module.exports = router; 
 

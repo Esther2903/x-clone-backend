@@ -1,6 +1,6 @@
 const express = require('express');
 const userRoute = require('./feature/users/userRoute');
-const authRoutes = require('./feature/auth/authRoutes');
+//const authRoutes = require('./feature/auth/authRoutes');
 const followershipRoute = require('./feature/followerships/followershipRoute');
 const tweetRoute = require('./feature/tweets/tweetRouter');
 const mentionRoute = require('./feature/mentions/mentionRoute');
@@ -12,7 +12,7 @@ const retweetRoute = require('./feature/retweets/retweetRoute');
 
 const blockRoute = require('./feature/block/blockRoute');
 const muteRoute = require('./feature/mutes/muteRoute');
-//const bookmarkRoute = require('./feature/bookmark/bookmarkController');
+const bookmarkRoute = require('./feature/bookmark/bookmarkRoute');
 const spaceRoute = require('./feature/spaces/spaceRoute');
 const space_participantRoute = require('./feature/space_participants/space_participantRoute');
 
@@ -22,7 +22,7 @@ const hashtagRoute = require('./feature/hashtag/hashtagRouter');
 const router = express();
 
 router.use('/users', userRoute); 
-router.use('/auth', authRoutes); 
+//router.use('/auth', authRoutes); 
 router.use('/followerships', followershipRoute); 
 router.use('/tweets', tweetRoute);
 router.use('/retweets' , retweetRoute);
@@ -31,7 +31,7 @@ router.use('/mentions', mentionRoute);
 router.use('/block', blockRoute);
 router.use('/lists', listRoute);
 router.use('/mutes', muteRoute);
-//router.use('/bookmarks', bookmarkRoute);
+router.use('/bookmark', bookmarkRoute);
 router.use('/spaces' , spaceRoute);
 router.use('/space_participants' , space_participantRoute);
 

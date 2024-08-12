@@ -17,7 +17,7 @@ const spaceRoute = require('./feature/spaces/spaceRoute');
 const space_participantRoute = require('./feature/space_participants/space_participantRoute');
 
 const hashtagRoute = require('./feature/hashtag/hashtagRouter');
-const list_membreRoute = require('./feature/list_members/lsit_membreRoute');
+const list_membreRoute = require('./feature/list_members/list_membreRoute');
 
 
 const router = express();

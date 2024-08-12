@@ -17,6 +17,7 @@ const spaceRoute = require('./feature/spaces/spaceRoute');
 const space_participantRoute = require('./feature/space_participants/space_participantRoute');
 
 const hashtagRoute = require('./feature/hashtag/hashtagRouter');
+const list_membreRoute = require('./feature/list_members/lsit_membreRoute');
 
 
 const router = express();
@@ -30,6 +31,7 @@ router.use('/mentions', mentionRoute);
 
 router.use('/block', blockRoute);
 router.use('/lists', listRoute);
+router.use('list_membres' , list_membreRoute)
 router.use('/mutes', muteRoute);
 router.use('/bookmark', bookmarkRoute);
 router.use('/spaces' , spaceRoute);

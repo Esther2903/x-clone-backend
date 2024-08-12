@@ -15,6 +15,7 @@ const blockRoute = require('./feature/block/blockRoute');
 const muteRoute = require('./feature/mutes/muteRoute');
 //const bookmarkRoute = require('./feature/bookmark/bookmarkController');
 const spaceRoute = require('./feature/spaces/spaceRoute');
+const space_participantRoute = require('./feature/space_participants/space_participantRoute');
 
 const router = express();
 
@@ -29,6 +30,7 @@ router.use('/lists', listRoute);
 router.use('/mutes', muteRoute);
 //router.use('/bookmarks', bookmarkRoute);
 router.use('/spaces' , spaceRoute);
+router.use('/space_participants' , space_participantRoute);
 
 router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);

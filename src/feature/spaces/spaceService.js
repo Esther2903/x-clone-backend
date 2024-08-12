@@ -7,8 +7,7 @@ class SpaceService {
         if (!userExists) {
             throw new Error('Creator user not found');
         }
-
-    
+        
         const space = await Space.create({ title, creatorUserId });
         return space;
     }

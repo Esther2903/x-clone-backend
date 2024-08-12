@@ -28,16 +28,18 @@ class ListController {
             res.status(400).json({ error: error.message });
         }
     }
-
     async getUserLists(req, res) {
         try {
-            const { userId } = req;
+            const userId = req.user.id; 
             const lists = await listService.getUserLists(userId);
             res.json(lists);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
     }
+    
+    
+    
 
     async updateList(req, res) {
         try {

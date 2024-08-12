@@ -1,5 +1,4 @@
 const tweetService = require('./tweetService');
-//const NotificationController = require('../notifications/notificationController');
 
 class TweetController {
 

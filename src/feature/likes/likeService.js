@@ -35,7 +35,9 @@ class LikeService {
             where: { tweetId },
             include: [{ model: User, attributes: ['id', 'username'] }]
         });
-        return likes;
+        return {
+            count: likes.length,
+            likes};
     }
 }
 

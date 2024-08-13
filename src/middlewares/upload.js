@@ -7,7 +7,7 @@ const Mediastorage = new CloudinaryStorage({
     params: {
         resource_type: 'auto',
         folder: 'media',
-        allowed_formats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
+        allowedFormats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
         public_id: (req, file) => `media_${Date.now()}`,
 
     }
@@ -18,7 +18,7 @@ const Messagestorage = new CloudinaryStorage({
     params: {
         resource_type: 'auto',
         folder: 'message',
-        allowed_formats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
+        allowedFormats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
         public_id: (req, file) => `message_${Date.now()}`,
 
     }
@@ -29,7 +29,6 @@ try {
         storage: Mediastorage,
         limits: {fileSize: 50 * 1024 * 1024},
         fileFilter: (req, file, cb) => {
-            console.log("Fichier reçu pour téléchargement:", file);
             cb(null, true);
         }
      });
@@ -38,7 +37,6 @@ try {
         storage: Messagestorage,
         limits: {fileSize: 50 * 1024 * 1024},
         fileFilter: (req, file, cb) => {
-            console.log("Fichier reçu pour téléchargement:", file);
             cb(null, true);
         }
     });
@@ -52,10 +50,5 @@ try {
 } catch(error) {
     console.log(error)
 }
-
-
-
-
-
 
 

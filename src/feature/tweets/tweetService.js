@@ -1,4 +1,4 @@
-const { Tweet, Media } = require('../../utils/index');
+const { Tweet, Media, User } = require('../../utils/index');
 const mediaService = require('../medias/mediaService');
 
 class TweetService {
@@ -19,6 +19,7 @@ class TweetService {
         }
 
         let tweet = await Tweet.create({ content, isThread, parentTweetId, typeTweets, userId });
+        
         if (mediaUrl) {
             const media = await mediaService.addMedia({
                 mediaType: this.#determineMediaType(mediaUrl),
@@ -27,8 +28,29 @@ class TweetService {
             });
             tweet = await this.updateTweet(tweet.id, { content, mediaUrl: media.mediaUrl, isThread, parentTweetId, typeTweets, userId });
         }
+
+        const comments = await this.getCommentsForTweet(tweet.id);
+
+        return {
+            tweet,
+            comments,
+            commentCount: comments.length
+        };
+        
         return tweet;
         
+    }
+
+    async getCommentsForTweet(tweetId) {
+        const comments = await Tweet.findAll({
+            where: { parentTweetId: tweetId, typeTweets: 'reply' },
+            include: [{ model: User, attributes: ['id', 'username'] }] 
+        });
+    
+        return {
+            count: comments.length,
+            comments
+        };
     }
 
     async updateTweet(tweetId, { content, mediaUrl, isThread, parentTweetId, typeTweets, userId }) {

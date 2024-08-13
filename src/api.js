@@ -15,9 +15,10 @@ const bookmarkRoute = require('./feature/bookmark/bookmarkRoute');
 const spaceRoute = require('./feature/spaces/spaceRoute');
 const space_participantRoute = require('./feature/space_participants/space_participantRoute');
 const hashtagRoute = require('./feature/hashtag/hashtagRouter');
+
 const list_membreRoute = require('./feature/list_members/list_membreRoute');
 //const authRoute = require('./feature/auth/authRoute');
-
+const newsletterRoute = require('./feature/newsletters/newsletterRouter');
 
 const router = express();
 
@@ -42,6 +43,7 @@ router.use('/messages', messageRoute);
 router.use('/likes', likeRoute);
 router.use('/community', communityRoute);
 router.use('/hashtags', hashtagRoute);
+router.use('/newsletters', newsletterRoute);
 
 module.exports = router; 
 

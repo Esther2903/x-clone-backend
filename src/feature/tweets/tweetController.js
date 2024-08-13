@@ -7,12 +7,42 @@ class TweetController {
             const tweetData = { 
                 content: req.body.content, 
                 mediaUrl: req.file ? req.file.path : null,
-                typeTweets: req.body.typeTweets, 
+                userId: req.user.id
+            };
+            const tweet = await tweetService.createTweet(tweetData);
+            return res.status(201).json(tweet);
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    async createReply(req, res) {
+        try {
+            const tweetData = { 
+                content: req.body.content, 
+                mediaUrl: req.file ? req.file.path : null,
                 parentTweetId: req.body.parentTweetId,
                 userId: req.user.id
             };
-            console.log(tweetData.mediaUrl)
-            const tweet = await tweetService.createTweet(tweetData);
+            const tweet = await tweetService.createReply(tweetData);
+            
+            return res.status(201).json(tweet);
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    async createQuote(req, res) {
+        try {
+            const tweetData = { 
+                content: req.body.content, 
+                mediaUrl: req.file ? req.file.path : null,
+                parentTweetId: req.body.parentTweetId,
+                userId: req.user.id
+            };
+            const tweet = await tweetService.createQuote(tweetData);
             
             return res.status(201).json(tweet);
         } catch (error) {

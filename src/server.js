@@ -3,22 +3,30 @@ const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler'); 
 const sequelize = require("./config/db_config"); 
 const router = require("./api"); 
-
+//const session = require('express-session');
+//const passport = require('passport');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 
-app.use(express.json());
+app.use(express.json()); 
 app.use(cors());
 
 
+/*app.use(session({
+    secret: 'secret', 
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+*/
 app.use('/api', router); 
 
-
 app.use(errorHandler);
-
 
 app.get("/", (req, res) => {
     res.send("Welcome to my web server, this is my X-clone");
@@ -27,7 +35,6 @@ app.get("/", (req, res) => {
 
 sequelize.sync()
     .then(() => {
-
         app.listen(PORT, () => {
             console.log(`Server is running on port: ${PORT}`);
         });

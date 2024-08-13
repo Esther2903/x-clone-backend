@@ -1,27 +1,23 @@
-const Followership = require('./followershipModel');
-const UserModel = require('../users/userModel');
-
+const {Followership , User }=  require('../../utils/index'); 
 
 class FollowershipService {
-
-    async followUser(followerId, followedId) 
-    {
-       const existing = await Followership.findOne({
-        where: {
+    async followUser(followerId, followedId) {
+        const existing = await Followership.findOne({
+            where: {
+                followerId,
+                followedId
+            }
+        });
+        if (existing) {
+            throw new Error('Already following this user');
+        }
+        return await Followership.create({
             followerId,
             followedId
-        }
-       });
-       if (existing) {
-        throw new Error('Already following this user');
+        });
     }
-    return await Followership.create({
-        followerId,
-        followedId
-    });
-}
 
-    async unfollowUser (followerId, followedId) {
+    async unfollowUser(followerId, followedId) {
         const follow = await Followership.findOne({
             where: {
                 followerId,
@@ -31,7 +27,6 @@ class FollowershipService {
         if (!follow) {
             throw new Error('You are not following this user.');
         }
-
         await follow.destroy();
         return { message: 'Successfully unfollowed the user.' };
     }
@@ -39,15 +34,14 @@ class FollowershipService {
     async getFollowers(userId) {
         return await Followership.findAll({
             where: { followedId: userId },
-            include: [{ model: User, as: 'follower' }]
+            include: [{ model: UserModel, as: 'follower' }]
         });
     }
 
     async getFollowing(userId) {
         return await Followership.findAll({
             where: { followerId: userId },
-            include: [{ model: User, as: 'followed' }]
-
+            include: [{ model: UserModel, as: 'followed' }]
         });
     }
 }

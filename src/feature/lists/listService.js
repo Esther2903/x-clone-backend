@@ -36,7 +36,7 @@ class ListService {
             throw error;
         }
     }
-
+    
     async updateList(listId, updatedData) {
         try {
             const list = await List.findByPk(listId);
@@ -49,7 +49,7 @@ class ListService {
             throw error;
         }
     }
-
+    
     async deleteList(listId) {
         try {
             const list = await List.findByPk(listId);

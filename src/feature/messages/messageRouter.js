@@ -11,7 +11,7 @@ messageRouter.put('/:id', auth, uploadMessage.single('picture'), messageControll
 messageRouter.delete('/:id', auth, messageController.deleteMessage);
 messageRouter.get('/:id', auth, messageController.getMessageById);
 messageRouter.get('/', auth, messageController.getAllMessagesForUser);
-messageRouter.get('/messagesRecieve', auth, messageController.getMessages);
+messageRouter.get('/mess/messagesRecieve', auth, messageController.getMessages);
 messageRouter.put('/:id/read', auth, messageController.markAsRead);
 
 module.exports = messageRouter;

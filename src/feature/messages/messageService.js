@@ -82,7 +82,7 @@ class MessageService {
                 receiverId: userId
             },
             include: [
-                { model: User, as: 'sender', attributes: ['id', 'username'] }
+                { model: User, attributes: ['id', 'username'] }
             ],
             order: [['created_at', 'DESC']]
         });

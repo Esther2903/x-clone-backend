@@ -6,15 +6,17 @@ class TweetController {
         try {
             const tweetData = { 
                 content: req.body.content, 
-                mediaUrl: req.file ? req.file.path : '',
+                mediaUrl: req.file ? req.file.path : null,
                 typeTweets: req.body.typeTweets, 
                 parentTweetId: req.body.parentTweetId,
                 userId: req.user.id
             };
+            console.log(tweetData.mediaUrl)
             const tweet = await tweetService.createTweet(tweetData);
             
             return res.status(201).json(tweet);
         } catch (error) {
+            console.log(error)
             return res.status(500).json({ message: error.message });
         }
     }

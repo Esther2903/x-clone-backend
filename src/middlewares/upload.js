@@ -5,8 +5,9 @@ const multer  = require('multer')
 const Mediastorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
+        resource_type: 'auto',
         folder: 'media',
-        allowedFormats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
+        allowed_formats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
         public_id: (req, file) => `media_${Date.now()}`,
 
     }
@@ -15,20 +16,46 @@ const Mediastorage = new CloudinaryStorage({
 const Messagestorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
+        resource_type: 'auto',
         folder: 'message',
-        allowedFormats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
+        allowed_formats:['jpg', 'png', 'gif', 'mp4', 'avi', 'mov', 'jpeg'],
         public_id: (req, file) => `message_${Date.now()}`,
 
     }
 });
 
-const uploadMedia = multer({ storage: Mediastorage });
-const uploadMessage = multer({ storage: Messagestorage });
+try {
+    const uploadMedia = multer({ 
+        storage: Mediastorage,
+        limits: {fileSize: 50 * 1024 * 1024},
+        fileFilter: (req, file, cb) => {
+            console.log("Fichier reçu pour téléchargement:", file);
+            cb(null, true);
+        }
+     });
+    
+    const uploadMessage = multer({ 
+        storage: Messagestorage,
+        limits: {fileSize: 50 * 1024 * 1024},
+        fileFilter: (req, file, cb) => {
+            console.log("Fichier reçu pour téléchargement:", file);
+            cb(null, true);
+        }
+    });
 
-module.exports = {
-    uploadMedia,
-    uploadMessage
-};
+
+    module.exports = {
+        uploadMedia,
+        uploadMessage
+    };
+
+} catch(error) {
+    console.log(error)
+}
+
+
+
+
 
 
 

@@ -73,10 +73,6 @@ app.get("/", (req, res) => {
 
 sequelize.sync()
     .then(() => {
-
-        app.listen(PORT, () => {
-            console.log(`Server is running on port: ${PORT}`);
-
         const httpsServer = https.createServer(credentials, app);
         httpsServer.listen(PORT, () => {
             console.log(`Server is running securely on https://localhost:${PORT}`);
@@ -87,12 +83,12 @@ sequelize.sync()
             res.redirect(`https://${req.headers.host}${req.url}`);
         });
         const httpServer = http.createServer(httpApp);
-        httpServer.listen(80, () => {
+        httpServer.listen(8080, () => {
             console.log(`HTTP Server running on port 80 and redirecting to HTTPS`);
         });
     })
     .catch(error => {
         console.error('Unable to connect to the database:', error);
     });
-});
+//});
     

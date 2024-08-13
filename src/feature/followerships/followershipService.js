@@ -1,4 +1,4 @@
-const {Followership , User }=  require('../../utils/index'); 
+const {Followership  }=  require('../../utils/index'); 
 
 class FollowershipService {
     async followUser(followerId, followedId) {

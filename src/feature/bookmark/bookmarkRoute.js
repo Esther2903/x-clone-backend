@@ -2,6 +2,9 @@ const express = require('express');
 const BookmarkController = require('./bookmarkController');
 const authHeader = require('../../middlewares/authMiddleware');
 
+
+
+
 const router = express.Router();
 
 router.use(authHeader);  

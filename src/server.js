@@ -14,7 +14,15 @@ const { error } = require('console');
 require('dotenv').config();
 
 const app = express();
+const server = http.createServer(app)
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 const PORT = process.env.PORT || 8000;
+
 
 /* const privateKey = fs.readFileSync('./server.key', 'utf-8');
 const certificate = fs.readFileSync('./server.cert', 'utf-8');
@@ -55,6 +63,7 @@ app.use('/api', router);
 
 app.use(errorHandler);
 
+require('./config/sockets/messageSocket')(io);
 
 app.get("/", (req, res) => {
     res.send("Welcome to my web server, this is my X-clone");
@@ -84,34 +93,11 @@ app.get("/", (req, res) => {
 
 sequelize.sync()
     .then(() => {
-        const startServer = (PORT) => {
-            const server = app.listen(PORT, () => {
+        server.listen(PORT, () => {
                 console.log(`Server is running on port http://localhost:${PORT}`);
-            });
-
-            const io = new Server(server, {
-                cors: {
-                    origin: "*",
-                    methods: ["GET", "POST"]
-                }
-            });
-
-            io.on("connection", (socket) => {
-                console.log("A user connected:", socket.id);
-
-                socket.on("sendMessage", (message) => {
-                    console.log("Message received:", message);
-                    io.emit("receiveMessage", message);
-                });
-
-                socket.on("disconnect", () => {
-                    console.log("User disconnected:", socket.id);
-                });
-            });
-        };
-
-        startServer(+PORT); 
+        });
     })
+
     .catch((error) => {
         console.error("Unable to connect to the database:", error);
-    });
+    })

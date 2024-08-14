@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const {Message, User} = require('../../utils/index');
-const { sendMessageSchema } = require('../../validations/messageValidation');
+const { sendMessageSchema } = require('../../validation/messageValidation');
 
 class MessageService {
     

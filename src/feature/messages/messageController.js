@@ -1,5 +1,5 @@
 const messageService = require('./messageService'); 
-const { sendMessageSchema, updateMessageSchema } = require('../../validations/messageValidation');
+const { sendMessageSchema, updateMessageSchema } = require('../../validation/messageValidation');
 
 class MessageController {
     

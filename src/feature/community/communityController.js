@@ -1,6 +1,6 @@
 const communityService = require('./communityService'); 
 
-const { createCommunitySchema, addMemberSchema, updateCommunitySchema } = require('../../validations/communityValidation');
+const { createCommunitySchema, addMemberSchema, updateCommunitySchema } = require('../../validation/communityValidation');
 
 class CommunityController {
     async createCommunity(req, res) {

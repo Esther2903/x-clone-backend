@@ -1,5 +1,5 @@
 const userService = require('./userService');
-const { userSignupSchema, userLoginSchema } = require('../../validations/userValidation'); 
+const { userSignupSchema, userLoginSchema } = require('../../validation/userValidation'); 
 
 class UserController {
     async signup(req, res) {

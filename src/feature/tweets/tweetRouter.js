@@ -6,6 +6,8 @@ const auth = require('../../middlewares/authMiddleware')
 const tweetRouter = express.Router();
 
 tweetRouter.post('/',auth, uploadMedia.single('mediaUrl'), tweetController.createTweet);
+tweetRouter.post('/twet/reply/',auth, uploadMedia.single('mediaUrl'), tweetController.createReply);
+tweetRouter.post('/twet/quote/',auth, uploadMedia.single('mediaUrl'), tweetController.createQuote);
 
 tweetRouter.get('/comment/:id',auth, tweetController.getCommentsForTweet);
 

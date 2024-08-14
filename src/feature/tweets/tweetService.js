@@ -1,9 +1,8 @@
+const { where } = require('sequelize');
 const { Tweet, Media, User } = require('../../utils/index');
 const mediaService = require('../medias/mediaService');
 
 class TweetService {
-    async createTweet({ content, mediaUrl, parentTweetId, typeTweets, userId }) {
-        let isThread = false;
 
         if (typeTweets === 'reply') {
             if (!parentTweetId) {
@@ -19,13 +18,16 @@ class TweetService {
         }
         let tweet = await Tweet.create({ content, isThread, parentTweetId, typeTweets, userId });
         
+    async createTweet({content, mediaUrl, userId}) {
+        let tweet = await Tweet.create({ content, typeTweets: 'tweet', userId });
+
         if (mediaUrl) {
             const media = await mediaService.addMedia({
                 mediaType: this.#determineMediaType(mediaUrl),
                 mediaUrl,
                 tweetId: tweet.id,
             });
-            tweet = await this.updateTweet(tweet.id, { content, mediaUrl: media.mediaUrl, isThread, parentTweetId, typeTweets, userId });
+            tweet = await this.updateTweet(tweet.id, { content, mediaUrl: media.mediaUrl, typeTweets, userId });
         }
 
         const comments = await this.getCommentsForTweet(tweet.id);
@@ -35,10 +37,74 @@ class TweetService {
             comments,
             commentCount: comments.length
         };
-        
-        return tweet;
-        
     }
+
+    async createReply({content, mediaUrl, parentTweetId,  userId}){
+
+        if (!parentTweetId) {
+            throw new Error('parentTweetId is required for replies');
+        }
+
+        const parentTweet = Tweet.findByPk(parentTweetId);
+        
+        if (!parentTweet) {
+            throw new Error('Tweet not found')
+        }
+        
+        let tweet = await Tweet.create({content, isThread: 'true', parentTweetId: parentTweet.id, typeTweets: 'reply', userId})
+    
+        if (mediaUrl) {
+            const media = await mediaService.addMedia({
+                mediaType: this.#determineMediaType(mediaUrl),
+                mediaUrl,
+                tweetId: tweet.id,
+            });
+            tweet = await this.updateTweet(tweet.id, { content, isThread: 'true', parentTweetId, typeTweets: 'reply', mediaUrl: media.mediaUrl, userId });
+        }
+
+        const comments = await this.getCommentsForTweet(tweet.id);
+
+        return {
+            tweet,
+            comments,
+            commentCount: comments.length
+        };
+    }
+
+
+    async createQuote({content, mediaUrl, parentTweetId,  userId}){
+
+        if (!parentTweetId) {
+            throw new Error('parentTweetId is required for quotes');
+        }
+
+        const parentTweet = Tweet.findByPk(parentTweetId);
+        
+        if (!parentTweet) {
+            throw new Error('Tweet not found')
+        }
+        
+        let tweet = await Tweet.create({content, parentTweetId: parentTweet.id, typeTweets: 'quote', userId})
+    
+        if (mediaUrl) {
+            const media = await mediaService.addMedia({
+                mediaType: this.#determineMediaType(mediaUrl),
+                mediaUrl,
+                tweetId: tweet.id,
+            });
+            tweet = await this.updateTweet(tweet.id, { content, parentTweetId, mediaUrl: media.mediaUrl, typeTweets, userId });
+        }
+
+        const comments = await this.getCommentsForTweet(tweet.id);
+
+        return {
+            tweet,
+            comments,
+            commentCount: comments.length
+        };
+    }
+
+    
 
     async getCommentsForTweet(tweetId) {
         const comments = await Tweet.findAll({
@@ -51,6 +117,7 @@ class TweetService {
             comments
         };
     }
+    
 
     async updateTweet(tweetId, { content, mediaUrl, isThread, parentTweetId, typeTweets, userId }) {
         const tweet = await this.findTweetById(tweetId);

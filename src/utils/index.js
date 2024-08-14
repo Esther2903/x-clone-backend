@@ -20,8 +20,8 @@ const Community = require('../feature/community/communityModel');
 const CommunityMember = require('../feature/community_members/communityMemberModel');
 const Block = require('../feature/block/blockModel');
 const Mute = require('../feature/mutes/muteModel');
-const Space = require('../feature/spaces/spaceModel');
-const SpaceParticipant = require('../feature/space_participants/spaceParticipantModel');
+//const Space = require('../feature/spaces/spaceModel');
+//const SpaceParticipant = require('../feature/space_participants/spaceParticipantModel');
 const Newsletter = require('../feature/newsletters/newsletterModel');
 const NewsletterSubscriber = require('../feature/newsletter_suscribers/newsletterSuscriberModel');
 
@@ -86,7 +86,7 @@ Block.belongsTo(User, { foreignKey: 'blockerUserId' });
 User.hasMany(Mute, { foreignKey: 'muterUserId' });
 Mute.belongsTo(User, { foreignKey: 'muterUserId' });
 
-User.hasMany(Space, { foreignKey: 'creatorUserId' });
+/*User.hasMany(Space, { foreignKey: 'creatorUserId' });
 Space.belongsTo(User, { foreignKey: 'creatorUserId' });
 
 Space.hasMany(SpaceParticipant, { foreignKey: 'spaceId' });
@@ -94,7 +94,7 @@ SpaceParticipant.belongsTo(Space, { foreignKey: 'spaceId' });
 
 User.hasMany(SpaceParticipant, { foreignKey: 'userId' });
 SpaceParticipant.belongsTo(User, { foreignKey: 'userId' });
-
+*/
 User.hasMany(Newsletter, { foreignKey: 'creatorUserId' });
 Newsletter.belongsTo(User, { foreignKey: 'creatorUserId' });
 
@@ -161,8 +161,8 @@ module.exports = {
     CommunityMember,
     Block,
     Mute,
-    Space,
-    SpaceParticipant,
+  //  Space,
+    //SpaceParticipant,
     Newsletter,
     NewsletterSubscriber
 };

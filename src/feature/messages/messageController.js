@@ -1,15 +1,16 @@
-const messageService = require('./messageService');
+const messageService = require('./messageService'); 
+const { sendMessageSchema, updateMessageSchema } = require('../../validations/messageValidation');
 
 class MessageController {
     
     async sendMessage(req, res) {
         try {
-            console.log(req.body);
-    
-            if (!req.body.content) {
-                return res.status(400).json({ message: 'Content field is required' });
+            // Validate send message data
+            const { error } = sendMessageSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
             }
-    
+
             const messageData = {
                 senderId: req.user.id,
                 receiverId: req.body.receiverId,
@@ -25,6 +26,12 @@ class MessageController {
 
     async updateMessage(req, res) {
         try {
+            // Validate update message data
+            const { error } = updateMessageSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
+            }
+
             const messageData = {
                 senderId: req.user.id,
                 content: req.body.content, 
@@ -36,6 +43,7 @@ class MessageController {
             return res.status(500).json({ message: error.message });
         }
     }
+
 
     async deleteMessage(req, res) {
         try {

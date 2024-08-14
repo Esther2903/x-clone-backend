@@ -1,8 +1,15 @@
 const communityService = require('./communityService'); 
 
+const { createCommunitySchema, addMemberSchema, updateCommunitySchema } = require('../../validations/communityValidation');
+
 class CommunityController {
     async createCommunity(req, res) {
         try {
+            const { error } = createCommunitySchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+
             const { name, description } = req.body;
             const userId = req.user.id; 
             const community = await communityService.createCommunity(userId, name, description);
@@ -14,6 +21,11 @@ class CommunityController {
 
     async addMember(req, res) {
         try {
+            const { error } = addMemberSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+
             const { communityId, memberUserId } = req.body;
             const communityMember = await communityService.addMember(communityId, memberUserId);
             return res.status(201).json(communityMember);
@@ -53,6 +65,12 @@ class CommunityController {
 
     async updateCommunity(req, res) {
         try {
+            // Validate update community data
+            const { error } = updateCommunitySchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+
             const { communityId } = req.params;
             const updateData = req.body; 
             const community = await communityService.updateCommunity(communityId, req.user.id, updateData);

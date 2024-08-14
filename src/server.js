@@ -8,8 +8,7 @@ const http = require('http');
 const errorHandler = require('./middlewares/errorHandler'); 
 const sequelize = require("./config/db_config"); 
 const router = require("./api"); 
-//const session = require('express-session');
-//const passport = require('passport');
+
 require('dotenv').config();
 
 const app = express();
@@ -53,15 +52,6 @@ app.use((req, res, next) => {
     res.redirect(`https://${req.headers.host}${req.url}`)
 })
 
-/*app.use(session({
-    secret: 'secret', 
-    resave: false,
-    saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-*/
 app.use('/api', router); 
 
 app.use(errorHandler);

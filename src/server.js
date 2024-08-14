@@ -17,8 +17,8 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 /* const privateKey = fs.readFileSync('./server.key', 'utf-8');
-const certificate = fs.readFileSync('./server.cert', 'utf-8'); */
-const credentials = { key: privateKey, cert: certificate};
+const certificate = fs.readFileSync('./server.cert', 'utf-8');
+const credentials = { key: privateKey, cert: certificate}; */
 
 app.use(helmet());
 app.use(cookieParser());

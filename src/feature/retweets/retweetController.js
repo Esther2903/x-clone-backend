@@ -1,5 +1,6 @@
 const RetweetService = require('./retweetService');
 const { createRetweetSchema } = require('../../validation/retweetValidation'); 
+const NotificationController = require('../notifications/notificationController');
 
 class RetweetController {
     async createRetweet(req, res) {
@@ -13,7 +14,11 @@ class RetweetController {
             const userId = req.user.id; 
 
             const retweet = await RetweetService.createRetweet(userId, tweetId);
+
+            await NotificationController.createRetweetNotification(retweet.id, userId);
+
             return res.status(201).json(retweet);
+    
 
         } catch (error) {
             return res.status(500).json({ message: error.message });

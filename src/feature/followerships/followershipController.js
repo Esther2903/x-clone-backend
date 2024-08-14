@@ -1,4 +1,5 @@
 const followershipService = require('./followershipService');
+const NotificationController = require('../notifications/notificationController');
 
 class FollowershipController {
     async follow(req, res) {
@@ -6,6 +7,7 @@ class FollowershipController {
             const followerId = req.user.id;
             const { followedId } = req.body;
             const follow = await followershipService.followUser(followerId, followedId);
+            await NotificationController.createFollowNotification(followerId, followedId);
             res.status(201).json(follow);
         } catch (error) {
             res.status(400).json({ error: error.message });

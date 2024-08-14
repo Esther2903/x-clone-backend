@@ -5,9 +5,11 @@ const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
+const {Server} = require('socket.io')
 const errorHandler = require('./middlewares/errorHandler'); 
 const sequelize = require("./config/db_config"); 
 const router = require("./api"); 
+const { error } = require('console');
 
 require('dotenv').config();
 
@@ -59,7 +61,7 @@ app.get("/", (req, res) => {
 });
 
 
-sequelize.sync()
+/* sequelize.sync()
     .then(() => {
         const httpsServer = https.createServer(credentials, app);
         httpsServer.listen(PORT, () => {
@@ -77,4 +79,39 @@ sequelize.sync()
     })
     .catch(error => {
         console.error('Unable to connect to the database:', error);
+    }); */
+
+
+sequelize.sync()
+    .then(() => {
+        const startServer = (PORT) => {
+            const server = app.listen(PORT, () => {
+                console.log(`Server is running on port http://localhost:${PORT}`);
+            });
+
+            const io = new Server(server, {
+                cors: {
+                    origin: "*",
+                    methods: ["GET", "POST"]
+                }
+            });
+
+            io.on("connection", (socket) => {
+                console.log("A user connected:", socket.id);
+
+                socket.on("sendMessage", (message) => {
+                    console.log("Message received:", message);
+                    io.emit("receiveMessage", message);
+                });
+
+                socket.on("disconnect", () => {
+                    console.log("User disconnected:", socket.id);
+                });
+            });
+        };
+
+        startServer(PORT); 
+    })
+    .catch((error) => {
+        console.error("Unable to connect to the database:", error);
     });

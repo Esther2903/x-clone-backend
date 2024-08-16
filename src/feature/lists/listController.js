@@ -1,15 +1,22 @@
 const listService = require('./listService');
+const { createListSchema, updateListSchema, addUserToListSchema } = require('../../validation/listValidation');
 
 class ListController {
     async createList(req, res) {
         try {
+
+            const { error } = createListSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+
             const { userId, name, description } = req.body;
-            if (!userId) {
+          /*  if (!userId) {
                 return res.status(400).json({ error: 'User ID is required' });
             }
             if (!name) {
                 return res.status(400).json({ error: 'List name is required' });
-            }
+            }*/
             const listData = { name, description };
             const list = await listService.createList(userId, listData);
             res.status(201).json(list);
@@ -43,6 +50,11 @@ class ListController {
 
     async updateList(req, res) {
         try {
+            const { error } = updateListSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+
             const listId = req.params.id;
             const updatedData = req.body;
             const updatedList = await listService.updateList(listId, updatedData);
@@ -64,6 +76,11 @@ class ListController {
 
     async addUserToList(req, res) {
         try {
+            const { error } = addUserToListSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ error: error.details.map(err => err.message) });
+            }
+            
             const { listId, userId } = req.body;
             const newMember = await listService.addUserToList(listId, userId);
             res.status(201).json(newMember);
@@ -71,6 +88,6 @@ class ListController {
             res.status(400).json({ error: error.message });
         }
     }
-}
+} 
 
 module.exports = new ListController();

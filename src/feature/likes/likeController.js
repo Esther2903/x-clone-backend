@@ -1,4 +1,5 @@
 const likeService = require('./likeService'); 
+const NotificationController = require('../notifications/notificationController');
 
 class LikeController {
     async likeTweet(req, res) {
@@ -6,6 +7,7 @@ class LikeController {
             const { tweetId } = req.params;
             const userId = req.user.id;
             const like = await likeService.likeTweet(userId, tweetId);
+            await NotificationController.createLikeNotification(like.id, userId, tweetId);
             return res.status(201).json(like);
         } catch (error) {
             return res.status(400).json({ message: error.message });
@@ -35,3 +37,5 @@ class LikeController {
 }
 
 module.exports = new LikeController();
+
+

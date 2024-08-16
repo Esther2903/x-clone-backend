@@ -1,9 +1,15 @@
 const tweetService = require('./tweetService');
+const { createTweetSchema, createReplySchema, createQuoteSchema, updateTweetSchema } = require('../../validation/tweetValidation');
 
 class TweetController {
 
     async createTweet(req, res) {
         try {
+            const { error } = createTweetSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
+            }
+
             const tweetData = { 
                 content: req.body.content, 
                 mediaUrl: req.file ? req.file.path : null,
@@ -12,13 +18,18 @@ class TweetController {
             const tweet = await tweetService.createTweet(tweetData);
             return res.status(201).json(tweet);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             return res.status(500).json({ message: error.message });
         }
     }
 
     async createReply(req, res) {
         try {
+            const { error } = createReplySchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
+            }
+
             const tweetData = { 
                 content: req.body.content, 
                 mediaUrl: req.file ? req.file.path : null,
@@ -26,16 +37,20 @@ class TweetController {
                 userId: req.user.id
             };
             const tweet = await tweetService.createReply(tweetData);
-            
             return res.status(201).json(tweet);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             return res.status(500).json({ message: error.message });
         }
     }
 
     async createQuote(req, res) {
         try {
+            const { error } = createQuoteSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
+            }
+
             const tweetData = { 
                 content: req.body.content, 
                 mediaUrl: req.file ? req.file.path : null,
@@ -43,14 +58,34 @@ class TweetController {
                 userId: req.user.id
             };
             const tweet = await tweetService.createQuote(tweetData);
-            
             return res.status(201).json(tweet);
         } catch (error) {
-            console.log(error)
+            console.log(error);
             return res.status(500).json({ message: error.message });
         }
     }
 
+    async updateTweet(req, res) {
+        try {
+            const { error } = updateTweetSchema.validate(req.body);
+            if (error) {
+                return res.status(400).json({ message: error.details.map(err => err.message) });
+            }
+
+            const tweetData = { 
+                content: req.body.content, 
+                mediaUrl: req.file ? req.file.path : '', 
+                isThread: req.body.isThread,
+                parentTweetId: req.body.parentTweetId,
+                typeTweets: req.body.typeTweets,
+                userId: req.user.id
+            };
+            const tweet = await tweetService.updateTweet(req.params.id, tweetData);
+            return res.status(200).json(tweet);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
     async getCommentsForTweet(req, res) {
         try {
             const tweetId = req.params.id;
@@ -67,23 +102,6 @@ class TweetController {
             return res.status(200).json(tweet);
         } catch (error) {
             return res.status(404).json({ message: error.message });
-        }
-    }
-
-    async updateTweet(req, res) {
-        try {
-            const tweetData = { 
-                content: req.body.content, 
-                mediaUrl: req.file ? req.file.path : '', 
-                isThread: req.body.isThread,
-                parentTweetId: req.body.parentTweetId,
-                typeTweets: req.body.typeTweets,
-                userId: req.user.id
-            };
-            const tweet = await tweetService.updateTweet(req.params.id, tweetData);
-            return res.status(200).json(tweet);
-        } catch (error) {
-            return res.status(500).json({ message: error.message });
         }
     }
 

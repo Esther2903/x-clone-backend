@@ -1,9 +1,14 @@
-const {Tweet, Media} = require('../../utils/index');
+const { Media, Tweet } = require('../../utils/index');
+const { addMediaSchema } = require('../../validation/mediaValidation');
 
 class MediaService {
+    
+    async addMedia({ mediaType, mediaUrl, tweetId }) {
+        const { error } = addMediaSchema.validate({ mediaType, mediaUrl, tweetId });
+        if (error) {
+            throw new Error(error.details[0].message);
+        }
 
-    async addMedia({mediaType, mediaUrl, tweetId}) {
-        //const tweet = await this.findTweetById(tweetId);
         const media = await Media.create({ mediaType, mediaUrl, tweetId });
         return media;
     }

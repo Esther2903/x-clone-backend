@@ -1,19 +1,18 @@
 const { Op } = require('sequelize');
 const {Message, User} = require('../../utils/index');
-
+const { sendMessageSchema } = require('../../validation/messageValidation');
 
 class MessageService {
     
     async sendMessage({ senderId, receiverId, content, picture }) {
-        if (!content) {
-            throw new Error('Message content cannot be empty');
+        const { error } = sendMessageSchema.validate({ receiverId, content });
+        if (error) {
+            throw new Error(error.details[0].message);
         }
 
-        const message = await Message.create({content, senderId,receiverId, picture});
+        const message = await Message.create({ content, senderId, receiverId, picture });
         return message;
     }
-
-
     async updateMessage(messageId, { content, picture, senderId }) {
         const message = await Message.findByPk(messageId);
     

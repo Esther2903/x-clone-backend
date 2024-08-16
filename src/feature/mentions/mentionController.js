@@ -1,4 +1,5 @@
 const MentionService = require('./mentionService');
+const NotificationController = require('../notifications/notificationController'); 
 
 class MentionController {
     async createMention(req, res) {
@@ -6,6 +7,7 @@ class MentionController {
             const { tweetId, mentionedUserId } = req.body;
          
             const mention = await MentionService.createMention(tweetId, mentionedUserId);
+            await NotificationController.createMentionNotification(mention.id, mentionedUserId);
             return res.status(201).json(mention);
         } catch (error) {
             return res.status(500).json({ message: error.message });

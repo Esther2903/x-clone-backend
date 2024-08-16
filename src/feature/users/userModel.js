@@ -64,7 +64,7 @@ const User = sequelize.define('User', {
     },
     birth_date: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: false
     },
     two_factor_enabled: {
       type: DataTypes.BOOLEAN,

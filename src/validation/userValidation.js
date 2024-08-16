@@ -14,8 +14,9 @@ const userSignupSchema = Joi.object({
         'string.pattern.base': 'Must be a valid phone number.',
         'any.required': 'Phone number is required.'
     }),
-    password: Joi.string().min(6).required().messages({
+    password: Joi.string().min(8).required().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])/).messages({
         'string.min': 'Password must be at least 6 characters long.',
+        'string.pattern.base': 'Password must contain at least one special character.',
         'any.required': 'Password is required.'
     }),
     birth_date: Joi.date().iso().optional().messages({

@@ -116,7 +116,7 @@ class TweetService {
     async getCommentsForTweet(tweetId) {
         const comments = await Tweet.findAll({
             where: { parentTweetId: tweetId, typeTweets: 'reply' },
-            include: [{ model: User, attributes: ['id', 'username'] }]
+            include: [Media, { model: User, attributes: ['id', 'username'] }]
         });
 
         return {

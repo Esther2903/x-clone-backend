@@ -82,7 +82,7 @@ app.get("/", (req, res) => {
             res.redirect(`https://${req.headers.host}${req.url}`);
         });
         const httpServer = http.createServer(httpApp);
-        httpServer.listen(80, () => {
+        httpServer.listen(8080, () => {
             console.log(`HTTP Server running on port 80 and redirecting to HTTPS`);
         });
     })
